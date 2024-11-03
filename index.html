@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      text-align: center;
+    }
+    .button-container {
+      margin-bottom: 20px;
+    }
+    .button-container button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .word-display {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="button-container">
+      <button onclick="startDisplay('textBlob1')">Button 1</button>
+      <button onclick="startDisplay('textBlob2')">Button 2</button>
+      <button onclick="startDisplay('textBlob3')">Button 3</button>
+    </div>
+    <div id="wordDisplay" class="word-display">Click a button to start</div>
+  </div>
+
+  <script>
+    const textBlobs = {
+      textBlob1: "The quick brown fox jumps over the lazy dog",
+      textBlob2: "JavaScript HTML CSS programming static webpage",
+      textBlob3: "Code algorithm implementation debugging testing",
+    };
+
+    let currentWords = [];
+    let currentIndex = 0;
+
+    function startDisplay(blobKey) {
+      // Set the words to the chosen blob's words
+      currentWords = textBlobs[blobKey].split(" ");
+      currentIndex = 0;
+      document.getElementById("wordDisplay").textContent = currentWords[currentIndex];
+    }
+
+    document.addEventListener("click", () => {
+      if (currentWords.length > 0) {
+        // Increment index and loop back if necessary
+        currentIndex = (currentIndex + 1) % currentWords.length;
+        document.getElementById("wordDisplay").textContent = currentWords[currentIndex];
+      }
+    });
+  </script>
+</body>
+</html>

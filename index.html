@@ -19,6 +19,9 @@
     }
     .button-container {
       margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .button-container button {
       margin: 5px;
@@ -31,12 +34,20 @@
       font-weight: bold;
       color: #333;
     }
+    .reset-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div id="buttonContainer" class="button-container"></div>
     <div id="wordDisplay" class="word-display">Click a button to start</div>
+    <button id="resetButton" class="reset-button" onclick="resetPage()">Reset</button>
   </div>
 
   <script>
@@ -54,12 +65,54 @@
 
     let currentWords = [];
     let currentIndex = 0;
+    let firstClick = true;
 
     function startDisplay(blobKey) {
       currentWords = textBlobs[blobKey].split(" ");
       currentIndex = 0;
+      firstClick = true;
       document.getElementById("wordDisplay").textContent = currentWords[currentIndex];
+      document.getElementById("buttonContainer").style.display = "none";
+      document.getElementById("resetButton").style.display = "none"; // Hide reset button when starting new display
+    }
+
+    document.addEventListener("click", () => {
+      if (currentWords.length > 0) {
+        if (firstClick) {
+          firstClick = false;
+        } else if (currentIndex < currentWords.length - 1) {
+          currentIndex++;
+          document.getElementById("wordDisplay").textContent = currentWords[currentIndex];
+        } else {
+          // Show the reset button after the last word
+          document.getElementById("wordDisplay").textContent = "";
+          document.getElementById("resetButton").style.display = "block";
+          currentWords = []; // Reset currentWords to prevent further updates
+        }
+      }
+    });
+
+    function resetPage() {
+      document.getElementById("buttonContainer").style.display = "flex"; // Show buttons
+      document.getElementById("resetButton").style.display = "none"; // Hide reset button
+      document.getElementById("wordDisplay").textContent = "Click a button to start";
+      currentWords = [];
+      currentIndex = 0;
     }
 
     function createButtons() {
-      const containe
+      const container = document.getElementById("buttonContainer");
+      container.innerHTML = "";  // Clear any existing buttons
+      for (const key in buttonLabels) {
+        const button = document.createElement("button");
+        button.textContent = buttonLabels[key];
+        button.onclick = () => startDisplay(key);
+        container.appendChild(button);
+      }
+    }
+
+    createButtons();  // Initialize buttons on load
+  </script>
+</body>
+</html>
+

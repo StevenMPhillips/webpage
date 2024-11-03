@@ -35,38 +35,31 @@
 </head>
 <body>
   <div class="container">
-    <div class="button-container">
-      <button onclick="startDisplay('textBlob1')">Button 1</button>
-      <button onclick="startDisplay('textBlob2')">Button 2</button>
-      <button onclick="startDisplay('textBlob3')">Button 3</button>
-    </div>
+    <div id="buttonContainer" class="button-container"></div>
     <div id="wordDisplay" class="word-display">Click a button to start</div>
   </div>
 
   <script>
+    const buttonLabels = {
+      button1: "Show Animals",
+      button2: "Programming Words",
+      button3: "Code Process"
+    };
+
     const textBlobs = {
-      textBlob1: "The quick brown fox jumps over the lazy dog",
-      textBlob2: "JavaScript HTML CSS programming static webpage",
-      textBlob3: "Code algorithm implementation debugging testing",
+      button1: "The quick brown fox jumps over the lazy dog",
+      button2: "JavaScript HTML CSS programming static webpage",
+      button3: "Code algorithm implementation debugging testing",
     };
 
     let currentWords = [];
     let currentIndex = 0;
 
     function startDisplay(blobKey) {
-      // Set the words to the chosen blob's words
       currentWords = textBlobs[blobKey].split(" ");
       currentIndex = 0;
       document.getElementById("wordDisplay").textContent = currentWords[currentIndex];
     }
 
-    document.addEventListener("click", () => {
-      if (currentWords.length > 0) {
-        // Increment index and loop back if necessary
-        currentIndex = (currentIndex + 1) % currentWords.length;
-        document.getElementById("wordDisplay").textContent = currentWords[currentIndex];
-      }
-    });
-  </script>
-</body>
-</html>
+    function createButtons() {
+      const containe
